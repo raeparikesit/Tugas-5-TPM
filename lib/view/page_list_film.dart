@@ -1,15 +1,17 @@
-import '../controller/api_data_source.dart';
-import '../model/list_film.dart';
+import 'package:datafilm_omdb/view/page_detail_film.dart';
+
+import '../controller/films_data_source.dart';
+import '../model/films.dart';
 import 'package:flutter/material.dart';
 
-class PageListFilms extends StatefulWidget {
+class PageListFilm extends StatefulWidget {
   final String text;
-  const PageListFilms({Key? key, required this.text}) : super(key: key);
+  const PageListFilm({Key? key, required this.text}) : super(key: key);
   @override
-  State<PageListFilms> createState() => _PageListFilmsState();
+  State<PageListFilm> createState() => _PageListFilmState();
 }
 
-class _PageListFilmsState extends State<PageListFilms> {
+class _PageListFilmState extends State<PageListFilm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,7 @@ class _PageListFilmsState extends State<PageListFilms> {
   Widget _buildListUsersBody() {
     return Container(
       child: FutureBuilder(
-        future: ApiDataSource.instance.loadListFilm(widget.text),
+        future: FilmsDataSource.instance.loadFilms(widget.text),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
             // Jika data ada error maka akan ditampilkan hasil error
@@ -31,8 +33,8 @@ class _PageListFilmsState extends State<PageListFilms> {
           }
           if (snapshot.hasData) {
             // Jika data ada dan berhasil maka akan ditampilkan hasil datanya
-            FilmList filmModel = FilmList.fromJson(snapshot.data);
-            return _buildSuccessSection(filmModel);
+            FilmList filmsModel = FilmList.fromJson(snapshot.data);
+            return _buildSuccessSection(filmsModel);
           }
           return _buildLoadingSection();
         },
@@ -50,35 +52,35 @@ class _PageListFilmsState extends State<PageListFilms> {
     );
   }
 
-  Widget _buildSuccessSection(FilmList filmModel) {
+  Widget _buildSuccessSection(FilmList data) {
     return ListView.builder(
-      itemCount: filmModel.search!.length,
+      itemCount: data.search!.length,
       itemBuilder: (BuildContext context, int index) {
-        return _buildItemUsers(filmModel.search![index]);
+        return _buildItemUsers(data.search![index]);
       },
     );
   }
 
-  Widget _buildItemUsers(Search film) {
+  Widget _buildItemUsers(Search filmData) {
     return InkWell(
-      onTap: () => {},
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PageDetailFilm(text: filmData.imdbID!))),
       child: Card(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               width: 100,
-              child: Image.network(film.poster!),
+              child: Image.network(filmData.poster!),
             ),
             SizedBox(
               width: 20,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(film.title!),
-                Text(film.year!)
-              ],
+              children: [Text(filmData.title!), Text(filmData.year!)],
             ),
           ],
         ),

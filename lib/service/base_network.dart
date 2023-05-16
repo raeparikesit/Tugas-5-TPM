@@ -10,6 +10,7 @@ class BaseNetwork {
     debugPrint("BaseNetwork - response : ${response.body}");
     return _processResponse(response);
   }
+
   static Future<Map<String, dynamic>> _processResponse(
       http.Response response) async {
     final body = response.body;
@@ -21,6 +22,7 @@ class BaseNetwork {
       return {"error": true};
     }
   }
+
   static void debugPrint(String value) {
     print("[BASE_NETWORK] - $value");
   }

@@ -31,15 +31,12 @@ class _PageSearchFilmState extends State<PageSearchFilm> {
                   child: TextField(
                     selectionHeightStyle: BoxHeightStyle.max,
                     style: GoogleFonts.nunitoSans(
-                        textStyle:
-                        TextStyle( fontSize: 15)),
+                        textStyle: TextStyle(fontSize: 15)),
                     decoration: InputDecoration(
-                      hintStyle: GoogleFonts.nunitoSans(
-                          fontSize: 15.0),
+                      hintStyle: GoogleFonts.nunitoSans(fontSize: 15.0),
                       hintText: "Enter film title",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(7.0)),
-
                       filled: true,
                       icon: Icon(
                         Icons.search,
@@ -58,20 +55,18 @@ class _PageSearchFilmState extends State<PageSearchFilm> {
               padding: EdgeInsets.all(1),
               child: Container(
                   child: ElevatedButton(
-                    child: Text(
-                      "Search",
-                      style: GoogleFonts.nunitoSans(
-                          textStyle: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 20.0)),
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                            return PageListFilms(text: _controller.text);
-                          }));
-                    },
-                  )),
+                child: Text(
+                  "Search",
+                  style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                          fontStyle: FontStyle.normal, fontSize: 20.0)),
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return PageListFilm(text: _controller.text);
+                  }));
+                },
+              )),
             ),
           ],
         ),
